@@ -1,0 +1,39 @@
+<label class="mt-4   float-left flex items-center cursor-pointer ml-8">
+    <!-- toggle -->
+    <div class="relative">
+    <!-- input -->
+    <% if @allow_student.length == 0 || @allow_student.first.block == false  %>           
+        <input id="toogleA" name="activate" type="checkbox" onclick="unblockBlockUser()" class="sr-only" />
+    <% else %>
+        <input id="toogleA" name="activate" checked="true" onclick="unblockBlockUser()" type="checkbox" class="sr-only" />
+    <% end %>          
+    <!-- line -->
+    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+    <!-- dot -->
+    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+    </div>
+</label>
+<style>
+    /* Toggle A */
+    input:checked ~ .dot {
+        transform: translateX(100%);
+        background-color: #06b6d4;
+    }
+</style>
+<script>
+    function unblockBlockUser(){
+        if($("#toogleA").is(":checked"))
+        {
+            block = 1
+        }
+        else
+        {
+            block = 0
+        }
+        $.ajax({
+            type: 'get',
+            data: 'type_of_quiz_id='+$("#type_of_quiz").val()+"&student_id="+$("#student_id").html()+"&block="+block,
+            url: "<%= block_unblock_user_path %>"
+        })
+    }
+</script>

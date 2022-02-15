@@ -1,0 +1,55 @@
+<div class="w-full block">
+<div class="flex flex-col">
+  <h2 class="max-w-6xl mb-2 mt-8 px-4 text-3xl uppercase text-left leading-6 font-medium text-gray-500 sm:px-6 lg:px-8">
+    Student List
+  </h2>
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Id
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Email
+                    </th>
+                    <th scope="col" class="text-left px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Action
+                    </th>
+                    </tr>
+                </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @students.each do |student| %>
+                <td id="student_id" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <%= student.id %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <%= student.email %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <select name="type_name" class="float-left" id="type_of_quiz" onchange="checkUserBlock(<%= student.id %>)">
+                        <option value="">Select test</option>
+                        <% @types.each do |type| %>
+                            <option value=<%= type.id %>><%= type.type.name%></option>
+                        <% end %>
+                    </select>
+                    <div id="check_user">
+                    </div>
+                </td>
+            <% end %> 
+          </tbody>
+        </div>
+    </div>
+</div>
+      
+<script>
+    function checkUserBlock(student_id){
+        $.ajax({
+            type: 'get',
+            data: 'type_of_quiz_id='+$("#type_of_quiz").val()+"&student_id="+student_id,
+            url: "<%= check_user_block_path %>"
+        })
+    }
+</script>
